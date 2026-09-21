@@ -1,0 +1,172 @@
+{
+  "site": {
+    "name": "Nshuti Juste",
+    "role": "IT Student and Software Developer",
+    "tagline": "I build web applications, data pipelines and security labs that work in the real world and are easy to use.",
+    "location": "Kigali, Rwanda",
+    "email": "nshutiijuste@gmail.com",
+    "availability": "Open to internships and freelance projects",
+    "accent": "#0b6e6e",
+    "profileImage": "",
+    "resumeUrl": "",
+    "metaDescription": "Portfolio of Nshuti Juste, an IT student and software developer building web applications, data pipelines and security labs.",
+    "footerText": "Nshuti Juste. All rights reserved."
+  },
+  "about": {
+    "heading": "About me",
+    "paragraphs": [
+      "I am an Information Technology student based in Kigali. I like taking an idea from a rough sketch to something people can actually use, whether that is an online store, a data pipeline or a security report.",
+      "My coursework covers software quality assurance, project management, big data, software security and networking. I put that into practice in personal and group projects, and I care about clean code, clear documentation and interfaces that anyone can pick up without instructions."
+    ],
+    "highlights": [
+      { "label": "Projects shown here", "value": "8" },
+      { "label": "Automated tests written", "value": "21+" },
+      { "label": "Main focus", "value": "Web, data and security" }
+    ]
+  },
+  "socials": [
+    { "label": "GitHub", "url": "" },
+    { "label": "LinkedIn", "url": "" },
+    { "label": "Tableau Public", "url": "https://public.tableau.com/app/profile/nshuti.juste" }
+  ],
+  "skills": [
+    { "group": "Languages", "items": ["Python", "JavaScript", "TypeScript", "SQL", "HTML and CSS"] },
+    { "group": "Web development", "items": ["Next.js", "React", "Tailwind CSS", "FastAPI", "HTMX", "NextAuth", "Prisma"] },
+    { "group": "Data and AI", "items": ["PostgreSQL", "Pandas", "NumPy", "Jupyter", "Tableau", "Machine learning", "Claude API", "Groq API"] },
+    { "group": "Cloud and deployment", "items": ["AWS RDS", "AWS Lambda", "EventBridge", "DigitalOcean", "nginx", "systemd", "Let's Encrypt"] },
+    { "group": "Security and networking", "items": ["Kali Purple", "VirtualBox", "DVWA", "Windows event log analysis", "CVSS scoring", "TCP/IP", "DNS and DHCP", "Subnetting"] },
+    { "group": "Quality and process", "items": ["pytest", "Test planning", "User stories", "Risk management", "Gantt, CPM and PERT"] }
+  ],
+  "projects": [
+    {
+      "id": "ambara-neza",
+      "title": "Ambara Neza Clothing Store",
+      "category": "Web development",
+      "summary": "A full online clothing store with a customer storefront and a complete admin portal for running the business.",
+      "description": "Ambara Neza is a full-stack e-commerce web app. Customers can browse the shop, search with live suggestions, sort by price, add items to a cart and place a booking. They can sign in with Google or email, leave reviews, track order status and confirm delivery from their account.\n\nThe admin portal handles products, inventory, bookings, delivery locations, customer messages, reviews and website content. The owner can upload site background images, edit the footer, set the USD to RWF exchange rate and manage business details without touching code.\n\nThe interface supports light and dark mode, a currency toggle and a green brand theme with a small geometric border pattern inspired by Imigongo art. It was built over many rounds of real feedback, and every change is documented in the project changelog.",
+      "role": "Design and full-stack development",
+      "tags": ["Next.js", "React", "PostgreSQL", "Prisma", "NextAuth", "Tailwind CSS"],
+      "image": "",
+      "link": "",
+      "linkLabel": "View project",
+      "featured": true
+    },
+    {
+      "id": "video-game-analytics",
+      "title": "Video Game Ratings Analytics Platform",
+      "category": "Data and AI",
+      "summary": "An automated big data pipeline that collects game data, predicts ratings with machine learning and answers questions in plain English.",
+      "description": "A group project that covers the whole data lifecycle. A pipeline pulls 800 games from the RAWG video game API, cleans them and loads them into PostgreSQL. Exploratory analysis then shows how ratings vary by genre, platform, release year and playtime.\n\nTwo Random Forest models predict a game's rating from those features: a regression model (R2 of 0.36) and a classifier that separates well-received from poorly-received games (75% accuracy). Results are published in a four-chart Tableau dashboard with genre and platform filters.\n\nAn AI assistant built on the Groq API turns a plain-English question into SQL and returns a plain-English answer, and it politely declines questions the data cannot answer. The pipeline is covered by 21 pytest tests and runs automatically every day on AWS using RDS PostgreSQL, a Lambda function and an EventBridge schedule.",
+      "role": "Group project: pipeline, machine learning, dashboard, AI assistant and AWS automation",
+      "tags": ["Python", "PostgreSQL", "scikit-learn", "Tableau", "Groq API", "AWS Lambda", "pytest"],
+      "image": "",
+      "link": "https://public.tableau.com/app/profile/nshuti.juste/viz/FinalProjectTableauPublic_17855828260600/VideoGameRatingsDashboard",
+      "linkLabel": "Open the dashboard",
+      "featured": true
+    },
+    {
+      "id": "penetration-test-report",
+      "title": "Web and Network Penetration Test Report",
+      "category": "Security",
+      "summary": "A professional penetration testing report from a controlled lab, with exploits, risk scores and fixes.",
+      "description": "A full security assessment carried out in an isolated VirtualBox lab with Kali Purple. The targets were DVWA and a deliberately vulnerable virtual machine.\n\nThe report documents command injection, SQL injection and a proxy bypass, following the Cyber Kill Chain. Each finding has a CVSS score, evidence, and remediation code samples so a developer can fix the issue straight away.\n\nThe PDF itself was generated with Python and ReportLab, so the layout is consistent and repeatable. All testing was done on systems built for practice.",
+      "role": "Lab testing, analysis and report writing",
+      "tags": ["Kali Purple", "VirtualBox", "SQL injection", "CVSS", "Python", "ReportLab"],
+      "image": "",
+      "link": "",
+      "linkLabel": "View project",
+      "featured": true
+    },
+    {
+      "id": "public-health-etl",
+      "title": "Public Health Data Pipeline",
+      "category": "Data and AI",
+      "summary": "An ETL pipeline and Tableau dashboard that turn raw tobacco prevalence data into clear, comparable insights.",
+      "description": "An extract, transform and load pipeline for a public tobacco prevalence dataset. It cleans and validates the raw records, loads them into PostgreSQL and exposes them to a Tableau Public dashboard.\n\nThe pipeline is covered by a pytest suite so that cleaning rules and loading behaviour are checked automatically each time the code changes.",
+      "role": "Pipeline design, testing and dashboard",
+      "tags": ["Python", "PostgreSQL", "pytest", "Tableau"],
+      "image": "",
+      "link": "",
+      "linkLabel": "View project",
+      "featured": false
+    },
+    {
+      "id": "data-analysis-notebooks",
+      "title": "Data Analysis Notebooks",
+      "category": "Data and AI",
+      "summary": "Jupyter notebooks on safari bookings and the Titanic dataset, from cleaning to findings.",
+      "description": "A set of complete analysis notebooks. The safari bookings notebook uses NumPy and Pandas to clean the data, summarise bookings and answer business questions. The Titanic notebook explores survival patterns and was exported as a formatted PDF report.\n\nEach notebook is written to be read top to bottom, with short explanations between the code cells.",
+      "role": "Analysis and reporting",
+      "tags": ["Python", "Pandas", "NumPy", "Jupyter"],
+      "image": "",
+      "link": "",
+      "linkLabel": "View project",
+      "featured": false
+    },
+    {
+      "id": "soc-event-log-baseline",
+      "title": "Windows Event Log Baseline Lab",
+      "category": "Security",
+      "summary": "A SOC analyst lab that records what normal Windows activity looks like so unusual events stand out.",
+      "description": "A hands-on lab from a SOC analyst course. It walks through orienting yourself in Windows Event Viewer, identifying the key event types and building a baseline of normal activity backed by exported EVTX evidence.\n\nThe result is a formatted report with screenshots and written answers explaining what each event means and why a baseline matters when hunting for suspicious behaviour.",
+      "role": "Lab work and report",
+      "tags": ["Windows Event Viewer", "EVTX", "SOC", "Log analysis"],
+      "image": "",
+      "link": "",
+      "linkLabel": "View project",
+      "featured": false
+    },
+    {
+      "id": "networking-master-notes",
+      "title": "Networking Master Notes",
+      "category": "Networking",
+      "summary": "A single study guide that explains how networks work, from IP addressing to HTTPS.",
+      "description": "A comprehensive guide covering TCP/IP, DNS, DHCP, NAT, subnetting, VPNs and HTTP/HTTPS. It is organised around the topics in the CompTIA Network+ and CCNA 200-301 syllabi and the TryHackMe learning paths, with plain-language explanations and worked examples.",
+      "role": "Research and writing",
+      "tags": ["TCP/IP", "DNS", "DHCP", "NAT", "Subnetting", "VPN"],
+      "image": "",
+      "link": "",
+      "linkLabel": "View project",
+      "featured": false
+    },
+    {
+      "id": "quality-and-project-management",
+      "title": "Software Quality and Project Management Case Work",
+      "category": "Software process",
+      "summary": "User stories, test design, contract review and project schedules for realistic software projects.",
+      "description": "A collection of team and individual assignments. They include user stories for a campus app called UniConnect checked against the INVEST criteria, a contract review built on a software project case study, and project plans using Gantt charts, critical path (CPM) and PERT estimates.\n\nThe work also covers risk management, acceptance criteria and a set of formal quality assurance quizzes, and it shapes how I plan and test my own projects.",
+      "role": "Team member and author",
+      "tags": ["User stories", "INVEST", "Risk management", "Gantt", "CPM and PERT"],
+      "image": "",
+      "link": "",
+      "linkLabel": "View project",
+      "featured": false
+    }
+  ],
+  "journey": [
+    {
+      "period": "Now",
+      "title": "Information Technology student",
+      "place": "Adventist University of Central Africa, Kigali",
+      "description": "Studying software quality assurance, software project management, big data, software security and networking."
+    },
+    {
+      "period": "Ongoing",
+      "title": "Building personal software projects",
+      "place": "Independent",
+      "description": "Designing and shipping full-stack web apps, using AI APIs in real features, and deploying them with nginx, systemd and DigitalOcean."
+    },
+    {
+      "period": "2026",
+      "title": "Cloud automation and data engineering",
+      "place": "Big data coursework",
+      "description": "Built and automated a data pipeline on AWS with a daily schedule, machine learning models and a public dashboard."
+    },
+    {
+      "period": "2026",
+      "title": "Hands-on security practice",
+      "place": "Lab environment",
+      "description": "Completed penetration testing and SOC analyst labs using Kali Purple, VirtualBox and Windows event logs."
+    }
+  ]
+}

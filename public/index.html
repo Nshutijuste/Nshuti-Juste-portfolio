@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio</title>
+  <meta name="description" content="">
+  <meta name="theme-color" content="#0b6e6e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b6e6e'/%3E%3Ctext x='16' y='22' font-size='17' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='white'%3EJ%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/theme.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top" id="top">
+    <div class="wrap top-in">
+      <a class="brand" href="#top" id="brand"></a>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#journey">Journey</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch colour theme"></button>
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="heroName">
+      <div class="wrap hero-in">
+        <div class="hero-text">
+          <p class="pill" id="heroAvail" hidden></p>
+          <p class="hero-role" id="heroRole"></p>
+          <h1 id="heroName"></h1>
+          <p class="hero-tag" id="heroTag"></p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#projects">See my projects</a>
+            <a class="btn" href="#contact">Get in touch</a>
+            <a class="btn ghost" id="heroCv" href="#" target="_blank" rel="noopener" hidden>Download CV</a>
+          </div>
+        </div>
+        <div class="hero-photo" id="heroPhoto" aria-hidden="false"></div>
+      </div>
+    </section>
+
+    <section class="block" id="about" aria-labelledby="aboutH">
+      <div class="wrap about-grid">
+        <div>
+          <h2 id="aboutH"></h2>
+          <div class="prose" id="aboutText"></div>
+        </div>
+        <ul class="facts" id="facts"></ul>
+      </div>
+    </section>
+
+    <section class="block alt" id="skills" aria-labelledby="skillsH">
+      <div class="wrap">
+        <h2 id="skillsH">Skills and tools</h2>
+        <div class="skill-grid" id="skillGrid"></div>
+      </div>
+    </section>
+
+    <section class="block" id="projects" aria-labelledby="projH">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2 id="projH">Projects</h2>
+            <p class="lede">Select a project to read how it was built and what it does.</p>
+          </div>
+          <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
+        </div>
+        <div class="proj-grid" id="projGrid"></div>
+      </div>
+    </section>
+
+    <section class="block alt" id="journey" aria-labelledby="journeyH">
+      <div class="wrap">
+        <h2 id="journeyH">Learning journey</h2>
+        <ol class="timeline" id="timeline"></ol>
+      </div>
+    </section>
+
+    <section class="block" id="contact" aria-labelledby="contactH">
+      <div class="wrap contact-grid">
+        <div>
+          <h2 id="contactH">Let's work together</h2>
+          <p class="lede">Have a project, an internship opportunity or a question? Send a message and I will reply as soon as I can.</p>
+          <ul class="contact-list" id="contactList"></ul>
+        </div>
+        <form class="card form" id="contactForm" novalidate>
+          <label>Your name<input name="name" autocomplete="name" required maxlength="100"></label>
+          <label>Your email<input name="email" type="email" autocomplete="email" required maxlength="200"></label>
+          <label>Message<textarea name="message" rows="5" required maxlength="4000"></textarea></label>
+          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn primary" type="submit" id="sendBtn">Send message</button>
+          <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <p id="footText"></p>
+      <a href="#top">Back to top</a>
+    </div>
+  </footer>
+
+  <button class="back-top" id="backTop" type="button" aria-label="Back to top" hidden>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7M12 19V6"/></svg>
+  </button>
+
+  <dialog class="modal" id="projModal" aria-labelledby="mTitle">
+    <div class="modal-in" id="modalBody"></div>
+  </dialog>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
