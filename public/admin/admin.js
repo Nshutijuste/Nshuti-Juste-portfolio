@@ -291,7 +291,7 @@
             h('div', { class: 'row' },
               h('button', { class: 'btn sm', type: 'button', text: 'Copy link', onclick: function () { navigator.clipboard && navigator.clipboard.writeText(location.origin + f.url).then(function () { toast('Link copied.'); }); } }),
               h('button', { class: 'btn sm danger', type: 'button', text: 'Delete', onclick: function () {
-                if (confirm('Delete this image? Any page still using it will show a placeholder.')) api('DELETE', '/api/admin/uploads/' + encodeURIComponent(f.name)).then(load);
+                if (confirm('Delete this image? Any page still using it will show a placeholder.')) api('DELETE', '/api/admin/uploads?url=' + encodeURIComponent(f.url)).then(load);
               } }))));
         });
       }).catch(function (e) { toast(e.message, true); });
@@ -303,7 +303,7 @@
       file.value = '';
     });
     p.appendChild(h('div', { class: 'card' }, h('h2', { text: 'Uploaded images' }),
-      h('p', { class: 'hint', text: 'JPG, PNG, WebP or GIF, up to 6 MB. To use an image, open a project or the General tab and choose it from the library.' }),
+      h('p', { class: 'hint', text: 'JPG, PNG, WebP or GIF, up to 4 MB. To use an image, open a project or the General tab and choose it from the library.' }),
       h('div', { class: 'row', style: 'margin-bottom:16px' }, h('button', { class: 'btn primary', type: 'button', text: 'Upload image', onclick: function () { file.click(); } }), file), box));
     load();
   }

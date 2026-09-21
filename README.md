@@ -11,7 +11,7 @@
 Log in with your ADMIN_PASSWORD, edit any tab, then click "Save changes".
 - General: name, role, photo, accent colour, CV link, footer, social links
 - About, Skills, Projects, Journey: add, edit, reorder, delete
-- Images: upload pictures (JPG, PNG, WebP, GIF, max 6 MB) and reuse them
+- Images: upload pictures (JPG, PNG, WebP, GIF, max 4 MB) and reuse them
 - Messages: messages sent through the contact form
 - Security: change the admin password (do this on first login)
 
