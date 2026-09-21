@@ -1,24 +1,30 @@
 # Portfolio website with admin portal
 
-## Run it
-1. Install Node.js 18 or newer.
-2. In this folder run: npm install
-3. Copy .env.example to .env and set ADMIN_PASSWORD.
-4. Run: npm start
-5. Website: http://localhost:3000   Admin portal: http://localhost:3000/admin
+Works on: Vercel (free), Netlify (free), or any Node host (Render, Railway, VPS).
+Admin portal: /admin/   (edit text, projects, skills, upload images, read messages, change password)
 
-## Admin portal
-Log in with your ADMIN_PASSWORD, edit any tab, then click "Save changes".
-- General: name, role, photo, accent colour, CV link, footer, social links
-- About, Skills, Projects, Journey: add, edit, reorder, delete
-- Images: upload pictures (JPG, PNG, WebP, GIF, max 4 MB) and reuse them
-- Messages: messages sent through the contact form
-- Security: change the admin password (do this on first login)
+## Run locally
+1. Install Node.js 18+
+2. npm install
+3. Copy .env.example to .env and set ADMIN_PASSWORD
+4. npm start  ->  http://localhost:3000  and  http://localhost:3000/admin/
+Local data is saved in the data/ folder.
 
-## Data
-Everything you edit is stored in the data/ folder (content.json, messages, uploads/). Back it up.
-To reset the text, delete data/content.json and restart.
+## Deploy on Vercel (free)
+1. Push this folder to GitHub (do NOT commit node_modules or .env).
+2. Vercel > Add New Project > import the repo. Leave build settings empty.
+3. Project > Storage > Create > Blob > choose PUBLIC > connect to the project.
+4. Settings > Environment Variables: add ADMIN_PASSWORD (and optionally SESSION_SECRET = any long random text).
+5. Redeploy. Open yourdomain/admin/ and log in.
 
-## Deploying
-Run with npm start behind nginx, keep it alive with systemd, add HTTPS with Let's Encrypt.
-Set DATA_DIR to a persistent folder so uploads survive updates.
+## Deploy on Netlify (free)
+1. Push this folder to GitHub.
+2. Netlify > Add new site > Import from Git. Build command: leave empty. Publish directory: public (already set in netlify.toml).
+3. Site configuration > Environment variables: add ADMIN_PASSWORD (and optionally SESSION_SECRET).
+4. Deploy. Open yoursite/admin/ and log in. Data and images are stored in Netlify Blobs automatically.
+   If saving fails with a Blobs error, also add BLOBS_SITE_ID (Site configuration > Site ID) and BLOBS_TOKEN (a Netlify personal access token).
+
+## Notes
+- Image uploads are limited to 4 MB (serverless request limit).
+- Change the admin password in Admin > Security after the first login.
+- Contact form messages appear in Admin > Messages (they are not emailed).

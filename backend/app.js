@@ -14,18 +14,31 @@ try {
   });
 } catch (_) { /* no .env file, that is fine */ }
 
-const DEFAULT_CONTENT = path.join(ROOT, 'defaults', 'content.json');
+const DEFAULT_CONTENT = require('../defaults/content.json'); // bundled so it works on any host
 const DEFAULT_PASSWORD = 'ChangeMe123!';
-const USE_BLOB = !!process.env.BLOB_READ_WRITE_TOKEN;
+const USE_BLOB = !!process.env.BLOB_READ_WRITE_TOKEN;                       // Vercel Blob
+const USE_NETLIFY = process.env.STORAGE === 'netlify' || !!process.env.BLOBS_SITE_ID; // Netlify Blobs
+const REMOTE = USE_BLOB || USE_NETLIFY;
 const blob = USE_BLOB ? require('@vercel/blob') : null;
+let nStore = null;
+function netlifyStore() {
+  if (!nStore) {
+    const { getStore } = require('@netlify/blobs');
+    nStore = process.env.BLOBS_SITE_ID
+      ? getStore({ name: 'portfolio', siteID: process.env.BLOBS_SITE_ID, token: process.env.BLOBS_TOKEN })
+      : getStore('portfolio');
+  }
+  return nStore;
+}
 const DATA_DIR = process.env.DATA_DIR ? path.resolve(process.env.DATA_DIR) : path.join(ROOT, 'data');
 const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
-if (!USE_BLOB) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+if (!REMOTE) { try { fs.mkdirSync(UPLOAD_DIR, { recursive: true }); } catch (_) { /* read-only host */ } }
 
 /* Storage: Vercel Blob when BLOB_READ_WRITE_TOKEN is set (Vercel), otherwise local files. */
 const PREFIX = USE_BLOB ? 'site-' + crypto.createHash('sha256').update(process.env.BLOB_READ_WRITE_TOKEN).digest('hex').slice(0, 20) : '';
 async function readStore(name, fallback) {
   try {
+    if (USE_NETLIFY) { const v = await netlifyStore().get(name, { type: 'json' }); return v == null ? fallback : v; }
     if (!USE_BLOB) return JSON.parse(fs.readFileSync(path.join(DATA_DIR, name), 'utf8'));
     const meta = await blob.head(`${PREFIX}/${name}`);
     const r = await fetch(meta.url + '?t=' + Date.now(), { cache: 'no-store' });
@@ -35,6 +48,7 @@ async function readStore(name, fallback) {
 }
 async function writeStore(name, data) {
   const body = JSON.stringify(data, null, 2);
+  if (USE_NETLIFY) { await netlifyStore().set(name, body); return; }
   if (!USE_BLOB) {
     const file = path.join(DATA_DIR, name);
     fs.writeFileSync(file + '.tmp', body);
@@ -43,7 +57,7 @@ async function writeStore(name, data) {
   }
   await blob.put(`${PREFIX}/${name}`, body, { access: 'public', addRandomSuffix: false, allowOverwrite: true, contentType: 'application/json', cacheControlMaxAge: 60 });
 }
-const defaultContent = () => JSON.parse(fs.readFileSync(DEFAULT_CONTENT, 'utf8'));
+const defaultContent = () => JSON.parse(JSON.stringify(DEFAULT_CONTENT));
 const loadContent = async () => (await readStore('content.json', null)) || defaultContent();
 
 /* ---------- password handling ---------- */
@@ -177,7 +191,17 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json({ limit: '1mb' }));
-if (!USE_BLOB) app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d', index: false }));
+if (!REMOTE) app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d', index: false }));
+const MIME = { jpg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif' };
+if (USE_NETLIFY) {
+  app.get('/uploads/:name', ah(async (req, res) => {
+    const name = path.basename(req.params.name);
+    const data = await netlifyStore().get('uploads/' + name, { type: 'arrayBuffer' });
+    if (!data) return res.status(404).end();
+    res.set({ 'Content-Type': MIME[name.split('.').pop()] || 'application/octet-stream', 'Cache-Control': 'public, max-age=604800' });
+    res.send(Buffer.from(data));
+  }));
+}
 app.use(express.static(path.join(ROOT, 'public'), { extensions: ['html'] }));
 
 /* public API */
@@ -241,6 +265,10 @@ app.post('/api/admin/upload', requireAdmin, (req, res, next) => {
     if (!looksLikeImage(req.file.buffer, req.file.mimetype)) return res.status(400).json({ error: 'That file is not a valid image.' });
     const name = Date.now().toString(36) + '-' + crypto.randomBytes(4).toString('hex') + EXT[req.file.mimetype];
     (async () => {
+      if (USE_NETLIFY) {
+        await netlifyStore().set('uploads/' + name, req.file.buffer.buffer.slice(req.file.buffer.byteOffset, req.file.buffer.byteOffset + req.file.buffer.length));
+        return res.json({ url: '/uploads/' + name });
+      }
       if (USE_BLOB) {
         const r = await blob.put(`${PREFIX}/uploads/${name}`, req.file.buffer, { access: 'public', addRandomSuffix: false, contentType: req.file.mimetype });
         return res.json({ url: r.url });
@@ -252,6 +280,10 @@ app.post('/api/admin/upload', requireAdmin, (req, res, next) => {
 });
 
 app.get('/api/admin/uploads', requireAdmin, ah(async (_req, res) => {
+  if (USE_NETLIFY) {
+    const { blobs } = await netlifyStore().list({ prefix: 'uploads/' });
+    return res.json(blobs.map((b) => { const n = b.key.replace('uploads/', ''); return { url: '/uploads/' + n, name: n, time: parseInt(n.split('-')[0], 36) || 0 }; }).sort((a, b) => b.time - a.time));
+  }
   if (USE_BLOB) {
     const { blobs } = await blob.list({ prefix: `${PREFIX}/uploads/`, limit: 200 });
     return res.json(blobs.map((b) => ({ url: b.url, name: b.url, time: +new Date(b.uploadedAt) })).sort((a, b) => b.time - a.time));
@@ -265,7 +297,9 @@ app.get('/api/admin/uploads', requireAdmin, ah(async (_req, res) => {
 
 app.delete('/api/admin/uploads', requireAdmin, ah(async (req, res) => {
   const target = String(req.query.url || '');
-  if (USE_BLOB) {
+  if (USE_NETLIFY) {
+    await netlifyStore().delete('uploads/' + path.basename(target));
+  } else if (USE_BLOB) {
     if (/^https:\/\/[a-z0-9-]+\.public\.blob\.vercel-storage\.com\//i.test(target) && target.includes(`/${PREFIX}/uploads/`)) await blob.del(target);
   } else {
     const file = path.join(UPLOAD_DIR, path.basename(target));
