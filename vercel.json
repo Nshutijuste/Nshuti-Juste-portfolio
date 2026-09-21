@@ -1,9 +1,11 @@
 {
+  "version": 2,
   "functions": {
-    "api/index.js": { "includeFiles": "{public,defaults}/**", "maxDuration": 15 }
+    "api/index.js": { "includeFiles": ["public/**", "defaults/**"], "maxDuration": 15 }
   },
   "rewrites": [
     { "source": "/admin", "destination": "/admin/index.html" },
-    { "source": "/api/(.*)", "destination": "/api/index" }
+    { "source": "/admin/", "destination": "/admin/index.html" },
+    { "source": "/api/(.*)", "destination": "/api/index.js" }
   ]
 }
